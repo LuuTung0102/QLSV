@@ -14,3 +14,12 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
 
   next();
 });
+
+export const isAuthorization = (allowedRoles) => {
+  return catchAsyncErrors(async (req, res, next) => {
+    if (!allowedRoles.includes(req.user.role)) {
+      return next(new ErrorHandler("User not authorized to perform this action", 403));
+    }
+    next();
+  });
+};

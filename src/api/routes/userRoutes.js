@@ -1,13 +1,12 @@
 import express from "express";
-import {login, register, logout, getUser, deleteUser } from "../controller/userController.js"
-import { isAuthenticated } from "../../middlewares/auth.js";
+import * as userController from "../controller/userController.js";
+import { isAuthenticated , isAuthorization} from "../../middlewares/auth.js";
 
 const router = express.Router();
 
-router.post("/register", register);
-router.post("/login", login);
-router.get("/logout", isAuthenticated, logout);
-router.get("/getuser", isAuthenticated, getUser);
-router.delete("/delete/:id", isAuthenticated, deleteUser);
+router.post("/register", userController.register);
+router.post("/login", userController.login);
+router.get("/logout", isAuthenticated, userController.logout);
+router.delete("/delete/:id", isAuthenticated, isAuthorization(["Admin"]), userController.deleteUser);
 
 export default router;

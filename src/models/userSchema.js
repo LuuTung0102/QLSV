@@ -64,4 +64,10 @@ userSchema.methods.getJWTToken = function () {
   });
 };
 
+userSchema.methods.getRefreshToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRES,
+  });
+};
+
 export const User = mongoose.model("User", userSchema);
